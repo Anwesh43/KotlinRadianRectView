@@ -76,6 +76,29 @@ class RadianRectView(ctx:Context):View(ctx) {
             }
         }
     }
+    data class RadianRectRenderer(var view:RadianRectView) {
+        val animator = Animator(view)
+        var radianRectContainer:RadianRectContainer?=null
+        fun render(canvas:Canvas,paint:Paint) {
+            if(radianRectContainer == null) {
+                val w = canvas.width.toFloat()
+                val h = canvas.height.toFloat()
+                radianRectContainer = RadianRectContainer(w, h)
+            }
+            canvas.drawColor(Color.parseColor("#212121"))
+            radianRectContainer?.draw(canvas,paint)
+            animator.update{
+                radianRectContainer?.update{
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            radianRectContainer?.startUpdating {
+                animator.startUpdating()
+            }
+        }
+    }
 }
 fun Canvas.drawRect(x:Float,y:Float,w:Float,h:Float,start:Float,sweep:Float,paint:Paint) {
     save()
