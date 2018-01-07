@@ -27,7 +27,8 @@ class RadianRectView(ctx:Context):View(ctx) {
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = Math.min(w,h)/40
             paint.strokeCap = Paint.Cap.ROUND
-            canvas.drawRect(w/2-w/4,h/2-w/4,w/2,h/2,0f,360f*state.scale,paint)
+            paint.color = Color.parseColor("#4527A0")
+            canvas.drawRect(w/2-w/4,h/2-w/4,w/2,w/2,0f,360f*state.scale,paint)
         }
         fun update(stopcb:(Float)->Unit) {
             state.update(stopcb)
@@ -58,7 +59,7 @@ class RadianRectView(ctx:Context):View(ctx) {
             if(animated) {
                 updatecb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(100)
                     view.invalidate()
                 }
                 catch(ex:Exception) {
@@ -113,9 +114,9 @@ fun Canvas.drawRect(x:Float,y:Float,w:Float,h:Float,start:Float,sweep:Float,pain
     save()
     translate(x+w/2,y+h/2)
     val path = Path()
-    path.addArc(RectF(-w/2,-h/2,w/2,h/2),start-45,sweep)
+    path.addArc(RectF(-w/2-w/5,-h/2-h/5,w/2+w/5,h/2+h/5),start-45,sweep)
     clipPath(path)
     val rx = Math.min(w,h)/5
-    drawRoundRect(RectF(-w/2,-h/2,w/2,h/2),rx,rx,paint)
+    drawRect(RectF(-w/2,-h/2,w/2,h/2),paint)
     restore()
 }
