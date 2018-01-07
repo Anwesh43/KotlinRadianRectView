@@ -20,6 +20,7 @@ class RadianRectView(ctx:Context):View(ctx) {
         return true
     }
     data class RadianRectContainer(var w:Float,var h:Float) {
+        val state = State()
         fun draw(canvas:Canvas,paint:Paint) {
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = Math.min(w,h)/40
@@ -27,10 +28,10 @@ class RadianRectView(ctx:Context):View(ctx) {
             canvas.drawRect(w/2-w/4,h/2-w/4,w/2,h/2,0f,360f,paint)
         }
         fun update(stopcb:(Float)->Unit) {
-
+            state.update(stopcb)
         }
         fun startUpdating(startcb:()->Unit) {
-
+            state.startUpdating(startcb)
         }
     }
     data class State(var scale:Float = 0f,var dir:Float = 0f,var prevScale:Float = 0f) {
