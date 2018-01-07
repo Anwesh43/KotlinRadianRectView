@@ -19,14 +19,28 @@ class RadianRectView(ctx:Context):View(ctx) {
         }
         return true
     }
+    data class RadianRectContainer(var w:Float,var h:Float) {
+        fun draw(canvas:Canvas,paint:Paint) {
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = Math.min(w,h)/40
+            paint.strokeCap = Paint.Cap.ROUND
+            canvas.drawRect(w/2-w/4,h/2-w/4,w/2,h/2,0f,360f,paint)
+        }
+        fun update(stopcb:(Float)->Unit) {
+
+        }
+        fun startUpdating(startcb:()->Unit) {
+
+        }
+    }
 }
-fun Canvas.drawRect(canvas:Canvas,paint:Paint,x:Float,y:Float,w:Float,h:Float,start:Float,sweep:Float) {
-    canvas.save()
-    canvas.translate(x+w/2,y+h/2)
+fun Canvas.drawRect(x:Float,y:Float,w:Float,h:Float,start:Float,sweep:Float,paint:Paint) {
+    save()
+    translate(x+w/2,y+h/2)
     val path = Path()
     path.addArc(RectF(-w/2,-h/2,w/2,h/2),start-45,sweep)
-    canvas.clipPath(path)
+    clipPath(path)
     val rx = Math.min(w,h)/5
-    canvas.drawRoundRect(RectF(-w/2,-h/2,w/2,h/2),rx,rx,paint)
-    canvas.restore()
+    drawRoundRect(RectF(-w/2,-h/2,w/2,h/2),rx,rx,paint)
+    restore()
 }
