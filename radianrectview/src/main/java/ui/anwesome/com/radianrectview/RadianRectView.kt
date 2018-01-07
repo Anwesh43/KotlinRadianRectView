@@ -47,6 +47,32 @@ class RadianRectView(ctx:Context):View(ctx) {
         fun startUpdating(startcb:()->Unit) {
             if(dir == 0f) {
                 dir = 1-2*scale
+                startcb()
+            }
+        }
+    }
+    data class Animator(var view:RadianRectView,var animated:Boolean = false) {
+        fun update(updatecb:()->Unit) {
+            if(animated) {
+                updatecb()
+                try {
+                    Thread.sleep(50)
+                    view.invalidate()
+                }
+                catch(ex:Exception) {
+
+                }
+            }
+        }
+        fun stop() {
+            if(animated) {
+                animated = false
+            }
+        }
+        fun startUpdating() {
+            if(!animated) {
+                animated = true
+                view.postInvalidate()
             }
         }
     }
