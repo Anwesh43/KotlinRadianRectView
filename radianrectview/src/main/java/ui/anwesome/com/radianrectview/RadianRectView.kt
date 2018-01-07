@@ -1,5 +1,6 @@
 package ui.anwesome.com.radianrectview
 
+import android.app.Activity
 import android.view.*
 import android.content.*
 import android.graphics.*
@@ -26,7 +27,7 @@ class RadianRectView(ctx:Context):View(ctx) {
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = Math.min(w,h)/40
             paint.strokeCap = Paint.Cap.ROUND
-            canvas.drawRect(w/2-w/4,h/2-w/4,w/2,h/2,0f,360f,paint)
+            canvas.drawRect(w/2-w/4,h/2-w/4,w/2,h/2,0f,360f*state.scale,paint)
         }
         fun update(stopcb:(Float)->Unit) {
             state.update(stopcb)
@@ -98,6 +99,13 @@ class RadianRectView(ctx:Context):View(ctx) {
             radianRectContainer?.startUpdating {
                 animator.startUpdating()
             }
+        }
+    }
+    companion object {
+        fun create(activity:Activity):RadianRectView {
+            val view = RadianRectView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
